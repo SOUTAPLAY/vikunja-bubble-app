@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#FAFAFA</color>
+    <color name="bot_bubble">#E8E8E8</color>
+    <color name="bubble_background">#F5F5F5</color>
+    <color name="error">#B00020</color>
+    <color name="hint_color">#9E9E9E</color>
+    <color name="input_background">#FFFFFF</color>
+    <color name="on_background">#212121</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#000000</color>
+    <color name="on_surface">#212121</color>
+    <color name="primary">#6200EE</color>
+    <color name="primary_variant">#3700B3</color>
+    <color name="secondary">#03DAC5</color>
+    <color name="secondary_variant">#018786</color>
+    <color name="success">#4CAF50</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="user_bubble">#6200EE</color>
+    <color name="warning">#FF6F00</color>
+    <string name="api_token_label">API Token</string>
+    <string name="app_name">Vikunja Bubble</string>
+    <string name="channel_description">Bubble notifications for Vikunja task management</string>
+    <string name="channel_name">Vikunja Tasks</string>
+    <string name="connecting">Connecting to Vikunja...</string>
+    <string name="hint_task">Add a task or send a message...</string>
+    <string name="main_description">Tap the notification bubble to open the chat and add tasks to Vikunja.</string>
+    <string name="notification_text">Tap to add a task</string>
+    <string name="notification_title">Vikunja</string>
+    <string name="project_id_label">Default Project ID</string>
+    <string name="send">Send</string>
+    <string name="settings_title">Settings</string>
+    <string name="task_added">Task added successfully!</string>
+    <string name="task_error">Failed to add task. Please check your connection.</string>
+    <string name="vikunja_url_label">Vikunja Server URL</string>
+    <style name="Theme.VikunjaBubble" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+    <style name="Theme.VikunjaBubble.BubbleActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_variant</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="android:colorBackground">@color/bubble_background</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+</resources>

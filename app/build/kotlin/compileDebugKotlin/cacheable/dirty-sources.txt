@@ -1,0 +1,8 @@
+C:\Users\souta\StudioProjects\vikunja-bubble-app\app\src\main\java\com\sou56\vikunjabubble\VikunjaApi.kt
+C:\Users\souta\StudioProjects\vikunja-bubble-app\app\src\main\java\com\sou56\vikunjabubble\AppPreferences.kt
+C:\Users\souta\StudioProjects\vikunja-bubble-app\app\src\main\java\com\sou56\vikunjabubble\ChatAdapter.kt
+C:\Users\souta\StudioProjects\vikunja-bubble-app\app\src\main\java\com\sou56\vikunjabubble\ChatMessage.kt
+C:\Users\souta\StudioProjects\vikunja-bubble-app\app\src\main\java\com\sou56\vikunjabubble\SettingsActivity.kt
+C:\Users\souta\StudioProjects\vikunja-bubble-app\app\src\main\java\com\sou56\vikunjabubble\MainActivity.kt
+C:\Users\souta\StudioProjects\vikunja-bubble-app\app\src\main\java\com\sou56\vikunjabubble\BubbleActivity.kt
+C:\Users\souta\StudioProjects\vikunja-bubble-app\app\src\main\java\com\sou56\vikunjabubble\BubbleNotificationHelper.kt

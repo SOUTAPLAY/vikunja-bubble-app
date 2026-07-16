@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--
+        Allow cleartext HTTP traffic to your Vikunja server.
+        Replace 'your-vikunja-host.example.com' with your actual server hostname.
+        For production, use HTTPS and remove the cleartextTrafficPermitted attribute.
+    -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">your-vikunja-host.example.com</domain>
+    </domain-config>
+
+    <!--
+        Base config: trust system CA certificates for all other connections.
+        If your Vikunja server uses HTTPS with a valid certificate, remove the domain-config above.
+    -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

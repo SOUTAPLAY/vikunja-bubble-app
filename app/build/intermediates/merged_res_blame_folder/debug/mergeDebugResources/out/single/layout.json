@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.sou56.vikunjabubble.app-mergeDebugResources-35:/layout/activity_bubble.xml",
+        "source": "com.sou56.vikunjabubble.app-main-38:/layout/activity_bubble.xml"
+    },
+    {
+        "merged": "com.sou56.vikunjabubble.app-mergeDebugResources-35:/layout/activity_settings.xml",
+        "source": "com.sou56.vikunjabubble.app-main-38:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.sou56.vikunjabubble.app-mergeDebugResources-35:/layout/item_chat_user.xml",
+        "source": "com.sou56.vikunjabubble.app-main-38:/layout/item_chat_user.xml"
+    },
+    {
+        "merged": "com.sou56.vikunjabubble.app-mergeDebugResources-35:/layout/activity_main.xml",
+        "source": "com.sou56.vikunjabubble.app-main-38:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.sou56.vikunjabubble.app-mergeDebugResources-35:/layout/item_chat_bot.xml",
+        "source": "com.sou56.vikunjabubble.app-main-38:/layout/item_chat_bot.xml"
+    }
+]

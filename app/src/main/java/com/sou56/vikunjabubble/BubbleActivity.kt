@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 class BubbleActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var editInput:    EditText
-    private lateinit var btnSend:      Button
-    private lateinit var progressBar:  ProgressBar
-    private lateinit var textEmpty:    TextView
-    private lateinit var adapter:      ChatAdapter
+    private lateinit var editInput: EditText
+    private lateinit var btnSend: Button
+    private lateinit var progressBar: ProgressBar
+    private lateinit var textEmpty: TextView
+    private lateinit var adapter: ChatAdapter
     private var updateListener: (() -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,10 +27,10 @@ class BubbleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bubble)
 
         recyclerView = findViewById(R.id.recyclerChat)
-        editInput    = findViewById(R.id.editInput)
-        btnSend      = findViewById(R.id.btnSend)
-        progressBar  = findViewById(R.id.progressBar)
-        textEmpty    = findViewById(R.id.textEmpty)
+        editInput = findViewById(R.id.editInput)
+        btnSend = findViewById(R.id.btnSend)
+        progressBar = findViewById(R.id.progressBar)
+        textEmpty = findViewById(R.id.textEmpty)
 
         recyclerView.layoutManager = LinearLayoutManager(this).apply { stackFromEnd = true }
         refreshList()
@@ -55,7 +55,7 @@ class BubbleActivity : AppCompatActivity() {
             progressBar.visibility = View.GONE
             btnSend.isEnabled = true
             result.onSuccess { msg -> ChatMessage.add(ChatItem(msg, isUser = false)) }
-                  .onFailure { e   -> ChatMessage.add(ChatItem("❌ エラー: ${e.message}", isUser = false)) }
+                .onFailure { e -> ChatMessage.add(ChatItem("❌ エラー: ${e.message}", isUser = false)) }
             refreshList()
         }
     }
