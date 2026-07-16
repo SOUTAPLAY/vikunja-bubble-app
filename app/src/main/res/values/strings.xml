@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vikunja Bubble</string>
+    <string name="main_description">Tap the notification bubble to open the chat and add tasks to Vikunja.</string>
+    <string name="hint_task">Add a task or send a message...</string>
+    <string name="send">Send</string>
+    <string name="channel_name">Vikunja Tasks</string>
+    <string name="channel_description">Bubble notifications for Vikunja task management</string>
+    <string name="notification_title">Vikunja</string>
+    <string name="notification_text">Tap to add a task</string>
+    <string name="task_added">Task added successfully!</string>
+    <string name="task_error">Failed to add task. Please check your connection.</string>
+    <string name="connecting">Connecting to Vikunja...</string>
+    <string name="settings_title">Settings</string>
+    <string name="vikunja_url_label">Vikunja Server URL</string>
+    <string name="api_token_label">API Token</string>
+    <string name="project_id_label">Default Project ID</string>
+</resources>
