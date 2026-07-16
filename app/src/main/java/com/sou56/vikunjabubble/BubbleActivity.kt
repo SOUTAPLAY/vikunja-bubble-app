@@ -1,13 +1,11 @@
 package com.sou56.vikunjabubble
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,11 +15,11 @@ import kotlinx.coroutines.launch
 class BubbleActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var editInput: EditText
-    private lateinit var btnSend: Button
-    private lateinit var progressBar: ProgressBar
-    private lateinit var textEmpty: TextView
-    private lateinit var adapter: ChatAdapter
+    private lateinit var editInput:    EditText
+    private lateinit var btnSend:      Button
+    private lateinit var progressBar:  ProgressBar
+    private lateinit var textEmpty:    TextView
+    private lateinit var adapter:      ChatAdapter
     private var updateListener: (() -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,22 +35,9 @@ class BubbleActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this).apply { stackFromEnd = true }
         refreshList()
 
-        // 未設定の場合は設定画面へ自動遷移
-        if (!AppPreferences.isConfigured(this)) {
-            ChatMessage.add(ChatMessage("⚙️ 最初に Vikunja の接続設定をしてください", isUser = false))
-            refreshList()
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
-
         btnSend.setOnClickListener {
             val text = editInput.text.toString().trim()
             if (text.isNotEmpty()) sendTask(text)
-        }
-
-        editInput.setOnEditorActionListener { _, _, _ ->
-            val text = editInput.text.toString().trim()
-            if (text.isNotEmpty()) sendTask(text)
-            true
         }
 
         updateListener = { runOnUiThread { refreshList() } }
@@ -60,14 +45,7 @@ class BubbleActivity : AppCompatActivity() {
     }
 
     private fun sendTask(text: String) {
-        // 送信前に設定チェック
-        if (!AppPreferences.isConfigured(this)) {
-            Toast.makeText(this, "設定が未完了です。設定画面を開いてください", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, SettingsActivity::class.java))
-            return
-        }
-
-        ChatMessage.add(ChatMessage(text, isUser = true))
+        ChatMessage.add(ChatItem(text, isUser = true))
         editInput.text.clear()
         progressBar.visibility = View.VISIBLE
         btnSend.isEnabled = false
@@ -76,9 +54,8 @@ class BubbleActivity : AppCompatActivity() {
             val result = VikunjaApi.createTask(this@BubbleActivity, text)
             progressBar.visibility = View.GONE
             btnSend.isEnabled = true
-            result
-                .onSuccess { msg -> ChatMessage.add(ChatMessage(msg, isUser = false)) }
-                .onFailure { e  -> ChatMessage.add(ChatMessage("❌ エラー: ${e.message}", isUser = false)) }
+            result.onSuccess { msg -> ChatMessage.add(ChatItem(msg, isUser = false)) }
+                  .onFailure { e   -> ChatMessage.add(ChatItem("❌ エラー: ${e.message}", isUser = false)) }
             refreshList()
         }
     }
