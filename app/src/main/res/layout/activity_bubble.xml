@@ -6,12 +6,29 @@
     android:background="@color/bubble_background">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerChat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="8dp"
         android:clipToPadding="false" />
+
+    <TextView
+        android:id="@+id/textEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="タスクを入力してください"
+        android:textColor="@color/hint_color"
+        android:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +38,7 @@
         android:background="@color/input_background">
 
         <EditText
-            android:id="@+id/messageInput"
+            android:id="@+id/editInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -33,15 +50,12 @@
             android:maxLines="3"
             android:imeOptions="actionSend" />
 
-        <ImageButton
-            android:id="@+id/sendButton"
+        <Button
+            android:id="@+id/btnSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_send"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:tint="@color/primary"
-            android:contentDescription="@string/send" />
+            android:text="@string/send"
+            android:backgroundTint="@color/primary" />
 
     </LinearLayout>
 
