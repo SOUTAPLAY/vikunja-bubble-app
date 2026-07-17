@@ -27,12 +27,16 @@ class BubbleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bubble)
 
         recyclerView = findViewById(R.id.recyclerChat)
-        editInput = findViewById(R.id.editInput)
-        btnSend = findViewById(R.id.btnSend)
-        progressBar = findViewById(R.id.progressBar)
-        textEmpty = findViewById(R.id.textEmpty)
+        editInput    = findViewById(R.id.editInput)
+        btnSend      = findViewById(R.id.btnSend)
+        progressBar  = findViewById(R.id.progressBar)
+        textEmpty    = findViewById(R.id.textEmpty)
 
+        // adapter を一度だけ生成してセット
+        adapter = ChatAdapter(mutableListOf())
         recyclerView.layoutManager = LinearLayoutManager(this).apply { stackFromEnd = true }
+        recyclerView.adapter = adapter
+
         refreshList()
 
         btnSend.setOnClickListener {
@@ -40,7 +44,10 @@ class BubbleActivity : AppCompatActivity() {
             if (text.isNotEmpty()) sendTask(text)
         }
 
-        updateListener = { runOnUiThread { refreshList() } }
+        // リスナーは onCreate で一度だけ登録
+        updateListener = {
+            runOnUiThread { refreshList() }
+        }
         updateListener?.let { ChatMessage.addListener(it) }
     }
 
@@ -54,16 +61,18 @@ class BubbleActivity : AppCompatActivity() {
             val result = VikunjaApi.createTask(this@BubbleActivity, text)
             progressBar.visibility = View.GONE
             btnSend.isEnabled = true
-            result.onSuccess { msg -> ChatMessage.add(ChatItem(msg, isUser = false)) }
-                .onFailure { e -> ChatMessage.add(ChatItem("❌ エラー: ${e.message}", isUser = false)) }
-            refreshList()
+            result
+                .onSuccess { msg -> ChatMessage.add(ChatItem(msg, isUser = false)) }
+                .onFailure { e  -> ChatMessage.add(ChatItem("\u274c エラー: ${e.message}", isUser = false)) }
+            // ChatMessage.add() がリスナー経由で refreshList() を呼ぶので
+            // ここでの二重呼び出しは不要
         }
     }
 
     private fun refreshList() {
         val history = ChatMessage.getHistory()
-        adapter = ChatAdapter(history)
-        recyclerView.adapter = adapter
+        // adapter を差し替えず、データだけ更新する
+        adapter.updateItems(history)
         textEmpty.visibility = if (history.isEmpty()) View.VISIBLE else View.GONE
         if (history.isNotEmpty()) recyclerView.scrollToPosition(history.size - 1)
     }
