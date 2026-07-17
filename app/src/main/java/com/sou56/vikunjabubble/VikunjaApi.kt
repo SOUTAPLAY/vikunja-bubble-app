@@ -30,11 +30,13 @@ object VikunjaApi {
                     put("project_id", projectId)
                 }.toString().toRequestBody(JSON_TYPE)
 
+                // Vikunja API: task creation requires PUT, not POST
+                // POST /api/v1/projects/{id}/tasks → 405 Method Not Allowed
                 val request = Request.Builder()
                     .url("$baseUrl/api/v1/projects/$projectId/tasks")
                     .addHeader("Authorization", "Bearer $token")
                     .addHeader("Content-Type", "application/json")
-                    .post(body)
+                    .put(body)
                     .build()
 
                 val response = client.newCall(request).execute()

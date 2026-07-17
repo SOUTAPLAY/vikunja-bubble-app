@@ -23,13 +23,28 @@
             </intent-filter>
         </activity>
 
+        <!--
+            BubbleActivity:
+            - allowEmbedded="true"  : bubble として埋め込み可能にする (必須)
+            - documentLaunchMode   : バブルごとに独立したタスクを生成 (必須)
+            - resizeableActivity   : バブルウィンドウのリサイズを許可 (必須)
+            - theme                : windowIsTranslucent=true のテーマを適用しないとバブルが描画されない
+            - intent-filter        : ShortcutManagerCompat で登録するショートカットの共有カテゴリ
+        -->
         <activity
             android:name=".BubbleActivity"
             android:exported="true"
             android:allowEmbedded="true"
             android:documentLaunchMode="always"
             android:resizeableActivity="true"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/Theme.VikunjaBubble.BubbleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.sou56.vikunjabubble.category.TEXT_SHARE_TARGET" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".SettingsActivity"
