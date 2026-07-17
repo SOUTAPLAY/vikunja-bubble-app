@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
@@ -18,9 +20,9 @@ import androidx.core.graphics.drawable.IconCompat
 
 object BubbleNotificationHelper {
 
-    private const val CHANNEL_ID = "vikunja_bubble_channel"
-    private const val NOTIF_ID = 1001
-    private const val SHORTCUT_ID = "vikunja_bubble_conversation"
+    private const val CHANNEL_ID   = "vikunja_bubble_channel"
+    private const val NOTIF_ID     = 1001
+    private const val SHORTCUT_ID  = "vikunja_bubble_conversation"
     private const val CATEGORY_TEXT_SHARE_TARGET =
         "com.sou56.vikunjabubble.category.TEXT_SHARE_TARGET"
 
@@ -51,23 +53,29 @@ object BubbleNotificationHelper {
             ) return
         }
 
-        val icon = IconCompat.createWithResource(context, R.mipmap.ic_launcher)
+        val appContext = context.applicationContext
+        val icon = IconCompat.createWithResource(appContext, R.mipmap.ic_launcher)
 
-        val targetIntent = Intent(context, BubbleActivity::class.java).apply {
+        // BubbleActivity を起動する Intent
+        // FLAG_ACTIVITY_NEW_TASK は applicationContext から起動する場合に必須
+        val targetIntent = Intent(appContext, BubbleActivity::class.java).apply {
             action = Intent.ACTION_VIEW
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
         val bubbleIntent = PendingIntent.getActivity(
-            context,
+            appContext,
             100,
             targetIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         val contentIntent = PendingIntent.getActivity(
-            context,
+            appContext,
             101,
-            Intent(context, MainActivity::class.java),
+            Intent(appContext, MainActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
@@ -77,10 +85,17 @@ object BubbleNotificationHelper {
             .setIcon(icon)
             .build()
 
-        // ショートカットは最初の1回だけ push する。
-        // 何度も呼ぶと端末の上限を超えてクラッシュするため。
+        // ---- ショートカットを登録 ----
+        // Android のバブル API は「登録済みの動的ショートカット」に紐付いた通知のみ
+        // バブルとして表示する。ショートカット登録直後に通知を発行すると
+        // システムがショートカットを認識する前になってしまいバブルが無視される。
+        // そのため、初回は 300ms 待ってから通知を発行する。
+        val doNotify = Runnable {
+            postBubbleNotification(appContext, person, icon, bubbleIntent, contentIntent, message)
+        }
+
         if (!shortcutPushed) {
-            val shortcut = ShortcutInfoCompat.Builder(context, SHORTCUT_ID)
+            val shortcut = ShortcutInfoCompat.Builder(appContext, SHORTCUT_ID)
                 .setShortLabel("Vikunja")
                 .setLongLived(true)
                 .setIcon(icon)
@@ -88,10 +103,23 @@ object BubbleNotificationHelper {
                 .setPerson(person)
                 .setCategories(setOf(CATEGORY_TEXT_SHARE_TARGET))
                 .build()
-            ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
+            ShortcutManagerCompat.pushDynamicShortcut(appContext, shortcut)
             shortcutPushed = true
+            // 300ms 待ってショートカットをシステムに反映させてから通知を発行
+            Handler(Looper.getMainLooper()).postDelayed(doNotify, 300L)
+        } else {
+            doNotify.run()
         }
+    }
 
+    private fun postBubbleNotification(
+        context: Context,
+        person: Person,
+        icon: IconCompat,
+        bubbleIntent: PendingIntent,
+        contentIntent: PendingIntent,
+        message: String
+    ) {
         val style = NotificationCompat.MessagingStyle(person)
             .setConversationTitle("Vikunja")
             .addMessage(message, System.currentTimeMillis(), person)
