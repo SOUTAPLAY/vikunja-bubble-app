@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ChatAdapter(private val items: List<ChatItem>) :
+class ChatAdapter(items: List<ChatItem>) :
     RecyclerView.Adapter<ChatAdapter.VH>() {
+
+    // val → var に変更して updateItems() で差し替え可能にする
+    private val items: MutableList<ChatItem> = items.toMutableList()
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
         val text: TextView = view.findViewById(R.id.textMessage)
@@ -27,4 +30,11 @@ class ChatAdapter(private val items: List<ChatItem>) :
     }
 
     override fun getItemCount() = items.size
+
+    /** リストを差し替えて再描画する。adapter自体は再生成しない。 */
+    fun updateItems(newItems: List<ChatItem>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
 }
